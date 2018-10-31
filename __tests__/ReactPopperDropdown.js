@@ -1,4 +1,4 @@
-
+/* eslint-disable */
 
 test('first passing test', () => {
 

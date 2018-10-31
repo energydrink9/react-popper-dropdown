@@ -9,7 +9,7 @@
    "plugin:react/recommended",
    "plugin:flowtype/recommended"
   ],
-  rules: {
+  "rules": {
     "no-unexpected-multiline": 2,
     "no-unused-vars": 1,
     "flowtype/space-before-type-colon": 0
