@@ -1,6 +1,6 @@
 {
   "name": "react-popper-dropdown",
-  "version": "0.1",
+  "version": "0.1.1",
   "description": "React Popper Dropdown",
   "main": "dist/ReactPopperDropdown.js",
   "author": "Michele Lugano <michele.lugano9@gmail.com> (https://www.linkedin.com/in/mlugano/)",
