@@ -64,7 +64,7 @@ class ReactPopperDropdown<T, ID> extends React.PureComponent<ReactPopperDropdown
       <Manager>
         <Reference>
           {({ ref }) => (
-            <div ref={ref} className={`react-popper-dropdown__select`} onClick={() => this.toggleDropdown()}>
+            <div ref={ref} className={`react-popper-dropdown__select`} onClick={() => { if (this.props.enabled) this.toggleDropdown() }}>
               { this.renderValue() }
               { this.props.enableReset && this.renderResetButton() }
               { this.state.open
