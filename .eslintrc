@@ -1,0 +1,17 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true
+  },
+  "plugins": ["react", "flowtype"],
+  "extends": [
+   "eslint:recommended",
+   "plugin:react/recommended",
+   "plugin:flowtype/recommended"
+  ],
+  rules: {
+    "no-unexpected-multiline": 2,
+    "no-unused-vars": 1,
+    "flowtype/space-before-type-colon": 0
+  }
+}

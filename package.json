@@ -1,0 +1,89 @@
+{
+  "name": "react-popper-dropdown",
+  "version": "0.1",
+  "description": "React Popper Dropdown",
+  "main": "dist/ReactPopperDropdown.js",
+  "author": "Michele Lugano <michele.lugano9@gmail.com> (https://www.linkedin.com/in/mlugano/)",
+  "dependencies": {
+    "immutable": "~3.8.2",
+    "react-popper": "^1.0.0",
+    "styled-components": "^4.0.3",
+    "uuid": "^3.3.2"
+  },
+  "peerDependencies": {
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-eslint": "8.2.1",
+    "babel-jest": "^23.6.0",
+    "babel-loader": "7.1.2",
+    "babel-plugin-transform-async-to-generator": "6.24.1",
+    "babel-plugin-transform-class-properties": "6.24.1",
+    "babel-plugin-transform-flow-comments": "6.22.0",
+    "babel-plugin-transform-object-rest-spread": "6.26.0",
+    "babel-plugin-transform-regenerator": "6.26.0",
+    "babel-plugin-transform-runtime": "6.23.0",
+    "babel-plugin-typecheck": "3.9.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "6.24.1",
+    "codecov": "^3.1.0",
+    "cross-env": "^2.0.1",
+    "css-loader": "0.28.8",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.6.0",
+    "eslint": "4.15.0",
+    "eslint-config-react": "1.1.7",
+    "eslint-loader": "1.9.0",
+    "eslint-plugin-flowtype": "2.50.0",
+    "eslint-plugin-react": "7.5.1",
+    "file-loader": "1.1.6",
+    "flow-bin": "0.80.0",
+    "flow-typed": "2.5.1",
+    "graceful-fs": "4.1.11",
+    "jest": "^23.6.0",
+    "json-loader": "0.5.7",
+    "postcss-flexbugs-fixes": "3.2.0",
+    "postcss-loader": "2.0.10",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "rimraf": "^2.6.2",
+    "style-loader": "^0.20.3",
+    "webpack": "3.10.0"
+  },
+  "scripts": {
+    "test": "jest",
+    "coverage": "jest --coverage",
+    "codecov": "yarn run coverage && codecov",
+    "prepublish": "yarn run build && yarn run test",
+    "clean": "rimraf dist",
+    "build": "yarn run clean && cross-env NODE_ENV=production webpack -p --config webpack.config.js",
+    "fast-build": "webpack --config webpack.config.js",
+    "start": "webpack --config webpack.config.js --watch",
+    "install-flow-def": "flow-typed install"
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/energydrink9/react-popper-dropdown.git"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "moduleDirectories": [
+      "node_modules"
+    ],
+    "moduleNameMapper": {
+      "^react(.*)$": "<rootDir>/vendor/react-master$1",
+      "^config$": "<rootDir>/configs/app-config.js",
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
+      "\\.(gif|ttf|eot|svg)$": "<rootDir>/__mocks__/fileMock.js"
+    }
+  }
+}
