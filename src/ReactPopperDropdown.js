@@ -157,11 +157,14 @@ export default class ReactPopperDropdown<T, ID> extends React.PureComponent<Reac
 
   </div>
 
-  renderValue = () => <div className="react-popper-dropdown__value">{ this.props.value == null ? this.renderEmptyValue() : this.props.renderer(this.props.labelGetter(this.state.choices.get(this.props.value)), this.state.choices.get(this.props.value)) }</div>
+  renderValue = () => <div className="react-popper-dropdown__value">
+    { this.props.value == null
+      ? this.renderEmptyValue()
+      : this.props.renderer(this.getChoice() == null ? "" : this.props.labelGetter(this.getChoice()), this.getChoice())
+    }
+  </div>
+
+  getChoice = () => this.state.choices.get(this.props.value)
 
   renderEmptyValue = () => <span>{ String.fromCharCode(160) }</span>
 }
-
-
-
-

@@ -31,31 +31,18 @@ const StyledReactPopperDropdown = styled(ReactPopperDropdown)`
   overflow: hidden;
 }
 .react-popper-dropdown__select__reset-button {
-  width: 12px;
-  margin-right: 4px;
-  flex-shrink: 0;
-  flex-grow: 0;
+  margin-right: 2px;
+  display: flex;
   cursor: pointer;
-  position: relative;
-  text-align: center;
 }
 .react-popper-dropdown__select__open-button, .react-popper-dropdown__select__close-button {
-  width: 8px;
-  flex-shrink: 0;
-  flex-grow: 0;
-  position: relative;
-  text-align: center;
+  display: flex;
 }
 .react-popper-dropdown__select__open-button::after, .react-popper-dropdown__select__close-button::after {
-  position: absolute;
   content: "";
-  top: 50%;
-	width: 0;
-	height: 0;
 	border-left: 4px solid transparent;
 	border-right: 4px solid transparent;
-  margin-top: -3px;
-  right: 0;
+  margin: auto;
 }
 .react-popper-dropdown__select__open-button::after {
 	border-top: 7px solid #666;
@@ -79,12 +66,8 @@ const StyledReactPopperDropdown = styled(ReactPopperDropdown)`
   color: #ccc;
 }
 .react-popper-dropdown__select__reset-button::after {
-  position: absolute;
   content: "\00d7";
-  top: 50%;
-  width: 0;
-  height: 0;
-  margin-top: -6px;
+  margin: auto;
   font-size: 1.5em;
 }
 .react-popper-dropdown__select__reset-button:hover::after {
