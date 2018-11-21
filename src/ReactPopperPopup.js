@@ -49,10 +49,8 @@ export default class ReactPopperPopup<T, ID> extends React.PureComponent<ReactPo
 
   handleClickOutside = (event: Object) => {
     let ref = ReactDOM.findDOMNode(this) //eslint-disable-line
-    if (ref != null && ! ref.contains(event.target)) {
+    if (ref != null && ! ref.contains(event.target))
       this.props.onClose()
-      event.stopPropagation()
-    }
   }
 
   render = () => <div className="react-popper-popup__dropdown">
