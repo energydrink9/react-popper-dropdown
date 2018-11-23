@@ -2,8 +2,8 @@
 
 import * as React from 'react'
 import ReactDOM from 'react-dom'
-import { List, OrderedMap } from 'immutable'
-import {Manager, Reference, Popper} from 'react-popper'
+import {List, OrderedMap} from 'immutable'
+import {Manager, Popper, Reference} from 'react-popper'
 import ReactPopperPopup from './ReactPopperPopup'
 
 type ReactPopperDropdownPropsType<T, ID> = {
@@ -17,7 +17,8 @@ type ReactPopperDropdownPropsType<T, ID> = {
   enableReset: boolean,
   filterable: boolean,
   popperContainer: HTMLElement,
-  className: string
+  className: string,
+  autoWidth: boolean
 };
 
 type ReactPopperDropdownStateType<T, ID> = {
@@ -43,7 +44,8 @@ export default class ReactPopperDropdown<T, ID> extends React.PureComponent<Reac
     enableReset: true,
     filterable: true,
     popperContainer: document.body,
-    className: ''
+    className: '',
+    autoWidth: false
   }
 
   constructor(props: ReactPopperDropdownPropsType<T, ID>) {
@@ -56,49 +58,68 @@ export default class ReactPopperDropdown<T, ID> extends React.PureComponent<Reac
   }
 
   componentDidMount = () => {
-    if (this.ref != null)
-      this.width = this.ref.getBoundingClientRect().width
+    if (this.ref != null) {
+      if(this.props.autoWidth)
+        this.width = 'auto'
+      else
+        this.width = this.ref.getBoundingClientRect().width
+    }
   }
 
   render = () => {
     let element = this.props.popperContainer
-    return <div className={`${this.props.className}`}><div className={` react-popper-dropdown ${!this.props.enabled ? 'react-popper-dropdown--disabled' : ''} ${this.state.open ? 'react-popper-dropdown--open' : ''}`} ref={ref => { this.ref = ref }}>
-      <Manager>
-        <Reference>
-          {({ ref }) => (
-            <div ref={ref} className={`react-popper-dropdown__select`} onClick={() => { if (this.props.enabled) this.toggleDropdown() }}>
-              { this.renderValue() }
-              { this.props.enableReset && this.renderResetButton() }
-              { this.state.open
-                ? <div className="react-popper-dropdown__select__close-button"></div>
-                : <div className="react-popper-dropdown__select__open-button"></div>
-              }
-            </div>
-          )}
-        </Reference>
-        { this.state.open && element != null && ReactDOM.createPortal(
-            <Popper placement={'bottom-start'}>
-              {({ placement, ref, style }) => {
+    return (
+      <div className={`${this.props.className}`}>
+        <div
+          className={this.getDropDownClass()}
+          ref={ref => {
+            this.ref = ref
+          }}>
+          <Manager>
+            <Reference>
+              {({ref}) => (
+                <div ref={ref}
+                     className={`react-popper-dropdown__select`}
+                     onClick={() => {
+                       if (this.props.enabled) this.toggleDropdown()
+                     }}>
+                  {this.renderValue()}
+                  {this.props.enableReset && this.renderResetButton()}
+                  {this.state.open
+                    ? <div className="react-popper-dropdown__select__close-button"></div>
+                    : <div className="react-popper-dropdown__select__open-button"></div>
+                  }
+                </div>
+              )}
+            </Reference>
+            {this.state.open && element != null && ReactDOM.createPortal(
+              <Popper placement={'bottom-start'}>
+                {({placement, ref, style}) => {
 
                   let styleWithWidth = {
                     ...style,
-                    minWidth: this.width + 'px'
+                    width: this.width + 'px'
                   }
 
-                return (
-                <div ref={ref} style={styleWithWidth} data-placement={placement} className={`${this.props.className} react-popper-dropdown__popper`}>
-                  <div className={`react-popper-dropdown__popup`}>
-                  { this.renderDropDown() }
-                  </div>
-                </div>
-              )}}
-            </Popper>,
-            element
-          )
-        }
-      </Manager>
-    </div></div>
-  }
+                  return (
+                    <div ref={ref}
+                         style={styleWithWidth}
+                         data-placement={placement}
+                         className={`${this.props.className} react-popper-dropdown__popper`}>
+                      <div className={`react-popper-dropdown__popup`}>
+                        {this.renderDropDown()}
+                      </div>
+                    </div>
+                  )
+                }}
+              </Popper>,
+              element
+            )
+            }
+          </Manager>
+        </div>
+      </div>
+    )}
 
   renderDropDown = () => <ReactPopperPopup
     filterable={this.props.filterable}
@@ -167,4 +188,6 @@ export default class ReactPopperDropdown<T, ID> extends React.PureComponent<Reac
   getChoice = () => this.state.choices.get(this.props.value)
 
   renderEmptyValue = () => <span>{ String.fromCharCode(160) }</span>
+
+  getDropDownClass = () =>` react-popper-dropdown ${!this.props.enabled ? 'react-popper-dropdown--disabled' : ''} ${this.state.open ? 'react-popper-dropdown--open' : ''}`;
 }
