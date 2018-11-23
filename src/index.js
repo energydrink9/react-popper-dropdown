@@ -75,7 +75,7 @@ const StyledReactPopperDropdown = styled(ReactPopperDropdown)`
 }
 
 .react-popper-dropdown__popper {
-  max-width: 250px
+  
 }
 
 .react-popper-popup__dropdown {
@@ -86,7 +86,8 @@ const StyledReactPopperDropdown = styled(ReactPopperDropdown)`
 }
 .react-popper-popup__filter {
   flex-grow: 1;
-  padding-left: 2px 4px;
+  padding:4px;
+  border-bottom: 1px solid rgb(170, 170, 170);
 }
 .react-popper-popup__filter input {
   width: 100%;
@@ -94,7 +95,6 @@ const StyledReactPopperDropdown = styled(ReactPopperDropdown)`
 .react-popper-popup__choices {
   display: flex;
   flex-direction: column;
-  max-height: 300px;
   overflow-y: auto;
   overflow-x: hidden
   white-space: nowrap;
@@ -105,6 +105,8 @@ const StyledReactPopperDropdown = styled(ReactPopperDropdown)`
   cursor: pointer;
   white-space: nowrap;
   text-overflow: ellipsis;
+  min-height: 20px;
+  overflow: hidden;
 }
 .react-popper-popup__choices__choice:hover {
   background-color: #eee;
