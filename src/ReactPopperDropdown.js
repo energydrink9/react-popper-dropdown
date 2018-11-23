@@ -167,6 +167,8 @@ export default class ReactPopperDropdown<T, ID> extends React.PureComponent<Reac
       open: false,
       filter: ''
     })
+    if(!event.target.className.includes('react-popper-dropdown__select__reset-button'))
+      event.stopPropagation();
   }
 
   resetValue = (event: Object) => {
