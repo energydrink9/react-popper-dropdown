@@ -37,14 +37,14 @@ export default class ReactPopperPopup<T, ID> extends React.PureComponent<ReactPo
   componentDidMount = () => {
     if (this.filterInput != null)
       this.filterInput.focus()
-    document.addEventListener('click', this.handleClickOutside, true)
+    document.addEventListener('click', this.handleClickOutside, false)
 
     if (this.state.selected == null)
       this.selectNext()
   }
 
   componentWillUnmount = () => {
-    document.removeEventListener('click', this.handleClickOutside, true);
+    document.removeEventListener('click', this.handleClickOutside, false);
   }
 
   handleClickOutside = (event: Object) => {

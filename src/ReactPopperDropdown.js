@@ -81,7 +81,9 @@ export default class ReactPopperDropdown<T, ID> extends React.PureComponent<Reac
                 <div ref={ref}
                      className={`react-popper-dropdown__select`}
                      onClick={() => {
-                       if (this.props.enabled) this.toggleDropdown()
+                       if (this.props.enabled) {
+                         this.toggleDropdown()
+                       }
                      }}>
                   {this.renderValue()}
                   {this.props.enableReset && this.renderResetButton()}
@@ -167,8 +169,6 @@ export default class ReactPopperDropdown<T, ID> extends React.PureComponent<Reac
       open: false,
       filter: ''
     })
-    if(!event.target.className.includes('react-popper-dropdown__select__reset-button'))
-      event.stopPropagation();
   }
 
   resetValue = (event: Object) => {
@@ -176,7 +176,7 @@ export default class ReactPopperDropdown<T, ID> extends React.PureComponent<Reac
     this.triggerOnChange(null)
   }
 
-  renderResetButton = () => <div onClick={this.resetValue} className={'react-popper-dropdown__select__reset-button'}>
+  renderResetButton = () => this.props.value != null && this.props.value !== '' && <div onClick={this.resetValue} className={'react-popper-dropdown__select__reset-button'}>
 
   </div>
 
