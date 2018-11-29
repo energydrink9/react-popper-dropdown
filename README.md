@@ -82,6 +82,6 @@ Pull requests are welcome, enjoy your react popper dorpdown!
 ## Contributors
 
 This project exists thanks to all the people who contribute. 
-<a href="https://github.com/energydrink9/functional-data-grid/contributors"><img src="https://opencollective.com/functional-data-grid/contributors.svg?width=890&button=false" /></a>
+<a href="https://github.com/energydrink9/react-popper-dropdown/contributors"></a>
 
 
