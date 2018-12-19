@@ -1,8 +1,8 @@
 // @flow
 
-import * as React from "react";
-import ReactDOM from "react-dom";
-import {List, OrderedMap} from "immutable/dist/immutable";
+import * as React from 'react'
+import ReactDOM from 'react-dom'
+import {List, OrderedMap} from 'immutable/dist/immutable'
 
 type ReactPopperPopupPropsType<T, ID> = {
   filter: string,
@@ -15,11 +15,11 @@ type ReactPopperPopupPropsType<T, ID> = {
   renderer: (string, T) => React.Node,
   onSelectChoice: (c: T) => void,
   onClose: () => void
-};
+}
 
 type ReactPopperPopupStateType<ID> = {
   selected: ?ID
-};
+}
 
 export default class ReactPopperPopup<T, ID> extends React.PureComponent<ReactPopperPopupPropsType<T, ID>, ReactPopperPopupStateType<ID>> {
 
@@ -53,20 +53,20 @@ export default class ReactPopperPopup<T, ID> extends React.PureComponent<ReactPo
       this.props.onClose()
   }
 
-  render = () => <div className="react-popper-popup__dropdown">
+  render = () => <div className='react-popper-popup__dropdown'>
     { this.props.filterable && this.renderFilter() }
     { this.renderChoices() }
   </div>
 
-  renderFilter = () => <div className="react-popper-popup__filter">
-    <input ref={ref => { this.filterInput = ref }} type="text" value={this.props.filter} onChange={(event: Object) => this.props.onFilterChange(event.target.value)} onKeyPress={this.onKeyPress} onKeyDown={this.onKeyDown} />
+  renderFilter = () => <div className='react-popper-popup__filter'>
+    <input ref={ref => { this.filterInput = ref }} type='text' value={this.props.filter} onChange={(event: Object) => this.props.onFilterChange(event.target.value)} onKeyPress={this.onKeyPress} onKeyDown={this.onKeyDown} />
   </div>
 
-  renderChoices = () => <div className="react-popper-popup__choices">
+  renderChoices = () => <div className='react-popper-popup__choices'>
     { this.getFilteredValues().map((c, index: number) => this.renderChoice(c, index)) }
   </div>
 
-  renderChoice = (c: T, index: number) => <div key={index} className={`react-popper-popup__choices__choice ${this.props.idGetter(c) === this.state.selected ? 'react-popper-popup__choices__choice--selected' : ''}`} onClick={(event: Object) => {this.props.onSelectChoice(c)}}>
+  renderChoice = (c: T, index: number) => <div key={index} className={`react-popper-popup__choices__choice ${this.props.idGetter(c) === this.state.selected ? 'react-popper-popup__choices__choice--selected' : ''}`} onClick={() => {this.props.onSelectChoice(c)}}>
     { this.props.renderer(this.props.labelGetter(c), c) }
   </div>
 

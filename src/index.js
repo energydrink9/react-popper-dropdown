@@ -1,7 +1,7 @@
 // @flow
 
 import ReactPopperDropdown from './ReactPopperDropdown'
-import styled from "styled-components";
+import styled from 'styled-components'
 
 const StyledReactPopperDropdown = styled(ReactPopperDropdown)`
 
@@ -21,6 +21,7 @@ const StyledReactPopperDropdown = styled(ReactPopperDropdown)`
   cursor: pointer;
   padding-left: 4px;
   padding-right: 4px;
+  align-items: center;
 }
 .react-popper-dropdown__value {
   flex-grow: 1;

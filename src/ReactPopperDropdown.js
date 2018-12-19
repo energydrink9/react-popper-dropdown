@@ -19,18 +19,18 @@ type ReactPopperDropdownPropsType<T, ID> = {
   popperContainer: HTMLElement,
   className: string,
   autoWidth: boolean
-};
+}
 
 type ReactPopperDropdownStateType<T, ID> = {
   choices: OrderedMap<ID, T>,
   open: boolean,
   filter: string
-};
+}
 
 export default class ReactPopperDropdown<T, ID> extends React.PureComponent<ReactPopperDropdownPropsType<T, ID>, ReactPopperDropdownStateType<T, ID>> {
 
   ref: ?HTMLDivElement
-  width: number = 0
+  width: string = '0px'
   dropdown: HTMLDivElement
 
   static defaultProps = {
@@ -57,12 +57,28 @@ export default class ReactPopperDropdown<T, ID> extends React.PureComponent<Reac
     }
   }
 
+  getInitialState = (props: ReactPopperDropdownPropsType<T, ID>) => ({
+    choices: OrderedMap(props.choices.map(c => [this.props.idGetter(c), c])),
+      open: false,
+      filter: ''
+  })
+
   componentDidMount = () => {
     if (this.ref != null) {
       if(this.props.autoWidth)
         this.width = 'auto'
       else
-        this.width = this.ref.getBoundingClientRect().width
+        this.width = this.ref.getBoundingClientRect().width + 'px'
+    }
+  }
+
+  componentDidUpdate = (prevProps) => {
+    if (this.props.choices !== prevProps.choices) {
+      this.setState({
+        choices: OrderedMap(this.props.choices.map(c => [this.props.idGetter(c), c])),
+          open: false,
+          filter: ''
+      })
     }
   }
 
@@ -88,8 +104,8 @@ export default class ReactPopperDropdown<T, ID> extends React.PureComponent<Reac
                   {this.renderValue()}
                   {this.props.enableReset && this.renderResetButton()}
                   {this.state.open
-                    ? <div className="react-popper-dropdown__select__close-button"></div>
-                    : <div className="react-popper-dropdown__select__open-button"></div>
+                    ? <div className='react-popper-dropdown__select__close-button'></div>
+                    : <div className='react-popper-dropdown__select__open-button'></div>
                   }
                 </div>
               )}
@@ -100,7 +116,7 @@ export default class ReactPopperDropdown<T, ID> extends React.PureComponent<Reac
 
                   let styleWithWidth = {
                     ...style,
-                    width: this.width + 'px'
+                    width: this.width
                   }
 
                   return (
@@ -180,10 +196,10 @@ export default class ReactPopperDropdown<T, ID> extends React.PureComponent<Reac
 
   </div>
 
-  renderValue = () => <div className="react-popper-dropdown__value">
+  renderValue = () => <div className='react-popper-dropdown__value'>
     { this.props.value == null
       ? this.renderEmptyValue()
-      : this.props.renderer(this.getChoice() == null ? "" : this.props.labelGetter(this.getChoice()), this.getChoice())
+      : this.props.renderer(this.getChoice() == null ? '' : this.props.labelGetter(this.getChoice()), this.getChoice())
     }
   </div>
 
