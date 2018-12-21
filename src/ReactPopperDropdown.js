@@ -5,10 +5,11 @@ import ReactDOM from 'react-dom'
 import {List, OrderedMap} from 'immutable'
 import {Manager, Popper, Reference} from 'react-popper'
 import ReactPopperPopup from './ReactPopperPopup'
+import ReactPopperPopupMulti from './ReactPopperPopupMulti'
 
 type ReactPopperDropdownPropsType<T, ID> = {
   choices: List<T>,
-  value: ?ID,
+  value: ?ID | List<ID>,
   idGetter: T => ID,
   labelGetter: T => string,
   renderer: (string, T) => React.Node,
@@ -18,7 +19,8 @@ type ReactPopperDropdownPropsType<T, ID> = {
   filterable: boolean,
   popperContainer: HTMLElement,
   className: string,
-  autoWidth: boolean
+  autoWidth: boolean,
+  multi: boolean
 }
 
 type ReactPopperDropdownStateType<T, ID> = {
@@ -45,7 +47,8 @@ export default class ReactPopperDropdown<T, ID> extends React.PureComponent<Reac
     filterable: true,
     popperContainer: document.body,
     className: '',
-    autoWidth: false
+    autoWidth: false,
+    multi: false
   }
 
   constructor(props: ReactPopperDropdownPropsType<T, ID>) {
@@ -72,7 +75,7 @@ export default class ReactPopperDropdown<T, ID> extends React.PureComponent<Reac
     }
   }
 
-  componentDidUpdate = (prevProps) => {
+  componentDidUpdate = (prevProps: ReactPopperDropdownPropsType<T, ID>) => {
     if (this.props.choices !== prevProps.choices) {
       this.setState({
         choices: OrderedMap(this.props.choices.map(c => [this.props.idGetter(c), c])),
@@ -101,8 +104,7 @@ export default class ReactPopperDropdown<T, ID> extends React.PureComponent<Reac
                          this.toggleDropdown()
                        }
                      }}>
-                  {this.renderValue()}
-                  {this.props.enableReset && this.renderResetButton()}
+                  {this.renderSingleOrMultiValue()}
                   {this.state.open
                     ? <div className='react-popper-dropdown__select__close-button'></div>
                     : <div className='react-popper-dropdown__select__open-button'></div>
@@ -139,18 +141,35 @@ export default class ReactPopperDropdown<T, ID> extends React.PureComponent<Reac
       </div>
     )}
 
-  renderDropDown = () => <ReactPopperPopup
-    filterable={this.props.filterable}
-    filter={this.state.filter}
-    onFilterChange={this.onFilterChange}
-    choices={this.state.choices}
-    value={this.props.value}
-    idGetter={this.props.idGetter}
-    labelGetter={this.props.labelGetter}
-    renderer={this.props.renderer}
-    onSelectChoice={this.onSelectChoice}
-    onClose={() => { this.closeSelect() }}
-  />
+  renderDropDown = () => {
+
+    const { filterable, multi, value, idGetter, labelGetter, renderer } = this.props
+    const { filter, choices } = this.state
+
+    return multi ? <ReactPopperPopupMulti
+      filterable={filterable}
+      filter={filter}
+      onFilterChange={this.onFilterChange}
+      choices={choices}
+      value={multi ? value : value == null ? List() : List(value) }
+      idGetter={idGetter}
+      labelGetter={labelGetter}
+      renderer={renderer}
+      onSelectChoice={this.onSelectChoice}
+      onClose={() => { this.closeSelect() }}
+    /> : <ReactPopperPopup
+      filterable={filterable}
+      filter={filter}
+      onFilterChange={this.onFilterChange}
+      choices={choices}
+      value={multi ? value : value == null ? List() : List(value) }
+      idGetter={idGetter}
+      labelGetter={labelGetter}
+      renderer={renderer}
+      onSelectChoice={this.onSelectChoice}
+      onClose={() => { this.closeSelect() }}
+    />
+  }
 
   toggleDropdown = () => {
     if (this.state.open)
@@ -192,18 +211,29 @@ export default class ReactPopperDropdown<T, ID> extends React.PureComponent<Reac
     this.triggerOnChange(null)
   }
 
-  renderResetButton = () => this.props.value != null && this.props.value !== '' && <div onClick={this.resetValue} className={'react-popper-dropdown__select__reset-button'}>
+  renderResetButton = (id: ID) => id != null && <div onClick={() => this.resetValue(id)} className={'react-popper-dropdown__select__reset-button'} />
 
+  renderSingleOrMultiValue = () => <div className='react-popper-dropdown__value'>
+    { this.props.multi ? this.renderMultiValue(this.props.value) : this.renderSingleValue(this.props.value) }
   </div>
 
-  renderValue = () => <div className='react-popper-dropdown__value'>
-    { this.props.value == null
-      ? this.renderEmptyValue()
-      : this.props.renderer(this.getChoice() == null ? '' : this.props.labelGetter(this.getChoice()), this.getChoice())
-    }
-  </div>
+  renderMultiValue = (value: List<ID>) => value.isEmpty()
+  ? this.renderEmptyValue()
+  : value.map((v, index) => <span key={index}>
+    { this.renderValue(v) }
+    {this.renderResetButton(v)}
+  </span>)
 
-  getChoice = () => this.state.choices.get(this.props.value)
+  renderSingleValue = (value: ?ID) => value == null
+    ? this.renderEmptyValue()
+    : <span>
+      { this.renderValue(value) }
+      { this.props.enableReset && this.renderResetButton(value) }
+    </span>
+
+  renderValue = (id: ID) => { this.props.renderer(this.getChoice(id) == null ? '' : this.props.labelGetter(this.getChoice(id)), this.getChoice(id)) }
+
+  getChoice = (id: ID) => this.state.choices.get(id)
 
   renderEmptyValue = () => <span>{ String.fromCharCode(160) }</span>
 
