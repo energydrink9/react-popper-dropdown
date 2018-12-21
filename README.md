@@ -61,17 +61,19 @@ The ReactPopperDropdown component accepts the following props:
 |Prop|Default|Description|
 |---|---|---|
 |choices| | Specifies the possibles value of dropdown|
-|value| | Specifies the value of dropdown|
+|value| | Specifies the value of dropdown, could be an element or a list of element in case of a multi select|
 |idGetter|(element) => element.id | Specifies how to get the id of choice |
 |labelGetter|(element) => element.label | Specifies how to get the label of choice |
 |renderer|(value) => value| Specifies how to render the column value |
-|enabled| true | Allows the user to change or not the value |
+|enabled| true | Allows the user to change or the value |
 |onValueChange| | Allows to specify an event handler for the value change event|
 |enableReset| true | Allows to user to reset the value|
 |filterable| true |Show the filter textbox that Allows to user to filter the choices|
 |popperContainer| document.body | When the popper element is attached|
 |className| | Css classes to apply to the component|
 |autoWidth|false| Enable the automatically adjusts the width of the popup element|
+|maxHeight|auto| Defines the max height of the dropdown popup|
+|multi|false|Enables multiple selection|
 
 
 # Conclusion
