@@ -20,7 +20,8 @@ type ReactPopperDropdownPropsType<T, ID> = {
   popperContainer: HTMLElement,
   className: string,
   autoWidth: boolean,
-  multi: boolean
+  multi: boolean,
+  maxHeight: ?number
 }
 
 type ReactPopperDropdownStateType<T, ID> = {
@@ -48,7 +49,8 @@ export default class ReactPopperDropdown<T, ID> extends React.PureComponent<Reac
     popperContainer: document.body,
     className: '',
     autoWidth: false,
-    multi: false
+    multi: false,
+    maxHeight: null
   }
 
   constructor(props: ReactPopperDropdownPropsType<T, ID>) {
@@ -143,7 +145,7 @@ export default class ReactPopperDropdown<T, ID> extends React.PureComponent<Reac
 
   renderDropDown = () => {
 
-    const { filterable, multi, value, idGetter, labelGetter, renderer } = this.props
+    const { filterable, multi, value, idGetter, labelGetter, renderer, maxHeight } = this.props
     const { filter, choices } = this.state
 
     return multi ? <ReactPopperPopupMulti
@@ -156,6 +158,7 @@ export default class ReactPopperDropdown<T, ID> extends React.PureComponent<Reac
       labelGetter={labelGetter}
       renderer={renderer}
       onSelectChoice={this.onSelectChoice}
+      maxHeight={maxHeight}
       onClose={() => { this.closeSelect() }}
     /> : <ReactPopperPopup
       filterable={filterable}
@@ -166,6 +169,7 @@ export default class ReactPopperDropdown<T, ID> extends React.PureComponent<Reac
       idGetter={idGetter}
       labelGetter={labelGetter}
       renderer={renderer}
+      maxHeight={maxHeight}
       onSelectChoice={this.onSelectChoice}
       onClose={() => { this.closeSelect() }}
     />
@@ -206,12 +210,16 @@ export default class ReactPopperDropdown<T, ID> extends React.PureComponent<Reac
     })
   }
 
-  resetValue = (event: Object) => {
+  resetValue = (event: Object, id: ID) => {
     event.stopPropagation()
-    this.triggerOnChange(null)
+    if (this.props.multi) {
+      this.triggerOnChange(this.props.value.filter(v => v !== id))
+    }
+    else
+      this.triggerOnChange(null)
   }
 
-  renderResetButton = (id: ID) => id != null && <div onClick={() => this.resetValue(id)} className={'react-popper-dropdown__select__reset-button'} />
+  renderResetButton = (id: ID) => id != null && <div style={{display: 'inline-block', verticalAlign: 'middle'}} onClick={(e) => this.resetValue(e, id)} className={'react-popper-dropdown__select__reset-button'} />
 
   renderSingleOrMultiValue = () => <div className='react-popper-dropdown__value'>
     { this.props.multi ? this.renderMultiValue(this.props.value) : this.renderSingleValue(this.props.value) }
@@ -231,7 +239,7 @@ export default class ReactPopperDropdown<T, ID> extends React.PureComponent<Reac
       { this.props.enableReset && this.renderResetButton(value) }
     </span>
 
-  renderValue = (id: ID) => { this.props.renderer(this.getChoice(id) == null ? '' : this.props.labelGetter(this.getChoice(id)), this.getChoice(id)) }
+  renderValue = (id: ID) => this.props.renderer(this.getChoice(id) == null ? '' : this.props.labelGetter(this.getChoice(id)), this.getChoice(id))
 
   getChoice = (id: ID) => this.state.choices.get(id)
 

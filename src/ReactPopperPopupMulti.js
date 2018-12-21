@@ -14,7 +14,8 @@ type ReactPopperPopupPropsType<T, ID> = {
   labelGetter: T => string,
   renderer: (string, T) => React.Node,
   onSelectChoice: (c: T) => void,
-  onClose: () => void
+  onClose: () => void,
+  maxHeight: ?number
 }
 
 type ReactPopperPopupStateType<ID> = {
@@ -48,7 +49,7 @@ export default class ReactPopperPopupMulti<T, ID> extends React.PureComponent<Re
       this.props.onClose()
   }
 
-  render = () => <div className='react-popper-popup__dropdown react-popper-popup__dropdown--multi'>
+  render = () => <div className='react-popper-popup__dropdown react-popper-popup__dropdown--multi' style={{ maxHeight: this.props.maxHeight != null ? this.props.maxHeight: 'auto' }}>
     { this.props.filterable && this.renderFilter() }
     { this.renderChoices() }
   </div>
@@ -70,7 +71,7 @@ export default class ReactPopperPopupMulti<T, ID> extends React.PureComponent<Re
     const {value, onSelectChoice} = this.props
 
     const isValueSelected = value.contains(id)
-    const newValue = isValueSelected ? value.remove(id) : value.push(id)
+    const newValue = isValueSelected ? value.filter(v => v !== id) : value.push(id)
     
     onSelectChoice(newValue)
   }

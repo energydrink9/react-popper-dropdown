@@ -14,7 +14,8 @@ type ReactPopperPopupPropsType<T, ID> = {
   labelGetter: T => string,
   renderer: (string, T) => React.Node,
   onSelectChoice: (c: T) => void,
-  onClose: () => void
+  onClose: () => void,
+  maxHeight: ?number
 }
 
 type ReactPopperPopupStateType<ID> = {
@@ -24,8 +25,6 @@ type ReactPopperPopupStateType<ID> = {
 export default class ReactPopperPopup<T, ID> extends React.PureComponent<ReactPopperPopupPropsType<T, ID>, ReactPopperPopupStateType<ID>> {
 
   filterInput: ?HTMLInputElement
-
-
 
   constructor(props: ReactPopperPopupPropsType<T, ID>) {
     super(props)
@@ -53,7 +52,7 @@ export default class ReactPopperPopup<T, ID> extends React.PureComponent<ReactPo
       this.props.onClose()
   }
 
-  render = () => <div className='react-popper-popup__dropdown'>
+  render = () => <div className='react-popper-popup__dropdown' style={{ maxHeight: this.props.maxHeight != null ? this.props.maxHeight: 'auto' }}>
     { this.props.filterable && this.renderFilter() }
     { this.renderChoices() }
   </div>
