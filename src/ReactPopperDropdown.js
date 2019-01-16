@@ -165,7 +165,7 @@ export default class ReactPopperDropdown<T, ID> extends React.PureComponent<Reac
       filter={filter}
       onFilterChange={this.onFilterChange}
       choices={choices}
-      value={multi ? value : value == null ? List() : List(value) }
+      value={multi ? value : (value == null ? List() : List([value])) }
       idGetter={idGetter}
       labelGetter={labelGetter}
       renderer={renderer}
