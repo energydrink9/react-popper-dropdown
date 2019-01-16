@@ -239,7 +239,10 @@ export default class ReactPopperDropdown<T, ID> extends React.PureComponent<Reac
       { this.props.enableReset && this.renderResetButton(value) }
     </span>
 
-  renderValue = (id: ID) => this.props.renderer(this.getChoice(id) == null ? '' : this.props.labelGetter(this.getChoice(id)), this.getChoice(id))
+  renderValue = (id: ID) => {
+    const choice = this.getChoice(id)
+    return choice == null ? '' : this.props.renderer(this.props.labelGetter(choice), choice)
+  }
 
   getChoice = (id: ID) => this.state.choices.get(id)
 

@@ -1,6 +1,6 @@
 {
   "name": "react-popper-dropdown",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "React Popper Dropdown",
   "main": "dist/ReactPopperDropdown.cjs.js",
   "module": "dist/ReactPopperDropdown.esm.js",
