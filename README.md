@@ -1,5 +1,7 @@
 # React Popper Dropdown
 
+> **⚠️ DISCONTINUED:** This repository is no longer maintained. Please consider using alternative dropdown solutions for new projects.
+
 [![npm version](https://badge.fury.io/js/react-popper-dropdown.svg)](https://badge.fury.io/js/react-popper-dropdown)
 ![NPM license](https://img.shields.io/github/license/energydrink9/react-popper-dropdown.svg)
 [![npm](https://img.shields.io/npm/dm/react-popper-dropdown.svg)](https://www.npmjs.com/package/react-popper-dropdown)
@@ -78,12 +80,6 @@ The ReactPopperDropdown component accepts the following props:
 
 # Conclusion
 
-Pull requests are welcome, enjoy your react popper dorpdown!
-
-
-## Contributors
-
-This project exists thanks to all the people who contribute. 
-<a href="https://github.com/energydrink9/react-popper-dropdown/contributors"><img src="https://opencollective.com/react-popper-dropdown/contributors.svg?width=890&button=false" /></a>
+Pull requests are welcome, enjoy your react popper dropdown!
 
 
